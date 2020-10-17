@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"log"
+)
+
+type CustomErr struct {
+	errormsg string
+}
+
+func (c *CustomErr) Error() string {
+	return c.errormsg
+}
+
+func New(a ...interface{}) *CustomErr {
+	ce := CustomErr{errormsg: fmt.Sprint(a...)}
+	return &ce
+}
+
+func main() {
+	r, err := receive("Ashish is awesome")
+	if err != nil {
+		log.Panicln("error occured ", err)
+	}
+	fmt.Println(r)
+
+}
+
+func receive(s string) (string, error) {
+	// uncomment this line for go to PANIC!!
+	//if s=="Ashish is awesome"{
+	if s != "Ashish is awesome" {
+		return "", New("Somethign went wrong but Ashish is still awesome")
+	}
+	return s, nil
+}
